@@ -4,8 +4,8 @@ import styles from '../styles/Home.module.css'
 
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome</h1>
+    <div className='container mt-3'>
+      <h5>What is Lorem Ipsum?</h5>
     </div>
   )
 }
