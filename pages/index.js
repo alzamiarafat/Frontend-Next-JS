@@ -1,17 +1,20 @@
-import { ApolloClient, gql, InMemoryCache } from '@apollo/client'
+// import { ApolloClient, gql, InMemoryCache } from '@apollo/client'
+import { gql } from "@apollo/client";
+import client from "../apollo-client";
 import { useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import axios from "axios";
 
-export default function Home({ res }) {
+export default function Home({ categories }) {
 
 
 
   // const initialState = results
   // const [characters, setCharacters] = useState(initialState.launches)
 
-  console.log(res);
+  console.log(categories);
 
   return (
     <div className='container mt-3'>
@@ -21,51 +24,109 @@ export default function Home({ res }) {
 }
 
 
-export const getStaticProps = async () => {
-  console.log("ran func data from spacex");
-  const client = new ApolloClient({
-    url: "https://devapiv2.walcart.com/graphql",
-    cache: new InMemoryCache(),
-  });
+// export async function getStaticProps() {
+//   const { data } = await client.query({
+//     query: gql`
+//         query {
+//           countries {
+//             code
+//             name
+//             emoji
+//           }
+//         }
+//       `,
+//   });
 
-  const res = await client.query({
-    query: gql`
-    query Query($pagination: PaginationInput) {
-      getCategories(pagination: $pagination) {
-        message
-        result {
-          count
-          categories {
-            uid
-            name
-            parent {
-              name
-              uid
-            }
-            parents {
-              uid
-              name
-            }
-            isActive
-            inActiveNote
-            createdAt
-            updatedAt
-          }
-        }
-      }
+//   return {
+//     props: {
+//       test: data.countries.slice(0, 4),
+//     },
+//   };
+// }
+
+
+
+export async function getStaticProps() {
+
+  const query = `query {
+    getCategories(pagination: {limit: 10 skip: 0}) {
+      message
+      statusCode
     }
-    `,
+  }`;
+
+  const response = await axios.post(`https://devapiv2.walcart.com/graphql/`, {
+    query
   });
 
-  // const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=6`)
-  // const articles = await res.json()
+  // return { ...response.data.data };
+
+
+  // const { data } = await client.query({
+  //   query: gql`
+  //     query {
+  //       getCategories(pagination: {limit: 10 skip: 0}) {
+  //         message
+  //         statusCode
+  //       }
+  //     }
+  //     `,
+  // });
 
   return {
     props: {
-      res
-    }
-  }
+      // launches: data.launchesPast,
+      categories: response
+    },
+  };
 }
+
+
+// export const getStaticProps = async () => {
+//   console.log("ran func data from spacex");
+//   const client = new ApolloClient({
+//     url: "https://devapiv2.walcart.com/graphql",
+//     cache: new InMemoryCache(),
+//   });
+
+//   const res = await client.query({
+//     query: gql`
+//     query Query($pagination: PaginationInput) {
+//       getCategories(pagination: $pagination) {
+//         message
+//         result {
+//           count
+//           categories {
+//             uid
+//             name
+//             parent {
+//               name
+//               uid
+//             }
+//             parents {
+//               uid
+//               name
+//             }
+//             isActive
+//             inActiveNote
+//             createdAt
+//             updatedAt
+//           }
+//         }
+//       }
+//     }
+//     `,
+//   });
+
+//   // const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=6`)
+//   // const articles = await res.json()
+
+//   return {
+//     props: {
+//       res
+//     }
+//   }
+// }
 
 // export async function getStaticProps() {
 //   console.log("ran func data from spacex");
