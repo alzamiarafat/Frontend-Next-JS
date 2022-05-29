@@ -5,16 +5,16 @@ import { useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import axios from "axios";
+// import axios from "axios";
 
-export default function Home({ categories }) {
+export default function Home({ test }) {
 
 
 
   // const initialState = results
   // const [characters, setCharacters] = useState(initialState.launches)
 
-  console.log(categories);
+  console.log(test);
 
   return (
     <div className='container mt-3'>
@@ -24,62 +24,62 @@ export default function Home({ categories }) {
 }
 
 
-// export async function getStaticProps() {
-//   const { data } = await client.query({
-//     query: gql`
-//         query {
-//           countries {
-//             code
-//             name
-//             emoji
-//           }
-//         }
-//       `,
-//   });
-
-//   return {
-//     props: {
-//       test: data.countries.slice(0, 4),
-//     },
-//   };
-// }
-
-
-
 export async function getStaticProps() {
-
-  const query = `query {
-    getCategories(pagination: {limit: 10 skip: 0}) {
-      message
-      statusCode
-    }
-  }`;
-
-  const response = await axios.post(`https://devapiv2.walcart.com/graphql/`, {
-    query
+  const { data } = await client.query({
+    query: gql`
+        query {
+          countries {
+            code
+            name
+            emoji
+          }
+        }
+      `,
   });
-
-  // return { ...response.data.data };
-
-
-  // const { data } = await client.query({
-  //   query: gql`
-  //     query {
-  //       getCategories(pagination: {limit: 10 skip: 0}) {
-  //         message
-  //         statusCode
-  //       }
-  //     }
-  //     `,
-  // });
 
   return {
     props: {
-      // launches: data.launchesPast,
-      categories: response
+      test: data.countries.slice(0, 4),
     },
   };
 }
+
+
+
+// export async function getStaticProps() {
+
+//   const query = `query {
+//     getCategories(pagination: {limit: 10 skip: 0}) {
+//       message
+//       statusCode
+//     }
+//   }`;
+
+//   // const response = await axios.post(`https://devapiv2.walcart.com/graphql/`, {
+//   //   query
+//   // });
+
+//   // return { ...response.data.data };
+
+
+//   // const { data } = await client.query({
+//   //   query: gql`
+//   //     query {
+//   //       getCategories(pagination: {limit: 10 skip: 0}) {
+//   //         message
+//   //         statusCode
+//   //       }
+//   //     }
+//   //     `,
+//   // });
+
+//   return {
+//     props: {
+//       // launches: data.launchesPast,
+//       categories: response
+//     },
+//   };
+// }
 
 
 // export const getStaticProps = async () => {
