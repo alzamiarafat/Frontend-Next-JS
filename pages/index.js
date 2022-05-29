@@ -5,43 +5,85 @@ import { useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-// import axios from "axios";
+import axios from "axios";
 
-export default function Home({ test }) {
+export default function Home({ categories }) {
 
-
-
-  // const initialState = results
-  // const [characters, setCharacters] = useState(initialState.launches)
-
-  console.log(test);
+  console.log(categories);
 
   return (
-    <div className='container mt-3'>
-      <h5>What is Lorem Ipsum?</h5>
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <div className={styles.grid}>
+          {categories.map(category =>
+            <a href="#" className={styles.card}>
+              <h2>{category.uid}</h2>
+              <p>{category.name}</p>
+            </a>
+          )}
+        </div>
+      </main>
     </div>
   )
 }
 
 
 export async function getStaticProps() {
-  const { data } = await client.query({
-    query: gql`
-        query {
-          countries {
-            code
+  let body = {
+    query: `
+    query {
+      getCategories (pagination: {limit: 100 skip: 0}) {
+        message
+        statusCode
+        result {
+          count
+          categories {
+            uid
             name
-            emoji
+            parent {
+              uid
+              name
+            }
+            parents {
+              uid
+              name
+            }
+            isActive
+            inActiveNote
+            createdAt
+            updatedAt
           }
         }
-      `,
-  });
+      }
+    }
+    `
+  }
+
+  const { data } = await axios.post(`https://devapiv2.walcart.com/graphql`, body);
 
   return {
     props: {
-      test: data.countries.slice(0, 4),
+      categories: data.data.getCategories.result.categories
     },
   };
+
+  // const { data } = await client.query({
+  //   query: gql`
+  //       query {
+  //         countries {
+  //           code
+  //           name
+  //           emoji
+  //         }
+  //       }
+  //     `,
+  // });
+
+  // return {
+  //   props: {
+  //     test: data.countries.slice(0, 4),
+  //   },
+  // };
 }
 
 
