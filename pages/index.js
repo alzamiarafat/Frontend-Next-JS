@@ -6,6 +6,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from "axios";
+import CategoryList from "../components/CategoryList";
 
 export default function Home({ categories }) {
 
@@ -14,19 +15,32 @@ export default function Home({ categories }) {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
+
         <div className={styles.grid}>
-          {categories.map(category =>
-            <a href="#" className={styles.card}>
-              <h2>{category.uid}</h2>
-              <p>{category.name}</p>
-            </a>
-          )}
+          <form action="/api/getCategory" class="form-control" method="post">
+            <div class="form-group">
+              <label for="name">Catagory Name</label>
+              <input type="text" class="form-control" id="name" name="name" />
+            </div>
+            <button type="submit" className="my-3 btn btn-primary">Add</button>
+          </form>
+
+          <div className="row mt-3">
+            {categories && categories.map((category, index) =>
+              <div className="col-3 border m-3" key={index}>
+                <a href="#">
+                  <h2>{category.uid}</h2>
+                  <p>{category.name}</p>
+                </a>
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </div>
+
   )
 }
-
 
 export async function getStaticProps() {
   let body = {
@@ -59,32 +73,16 @@ export async function getStaticProps() {
     `
   }
 
-  const { data } = await axios.post(`https://devapiv2.walcart.com/graphql`, body);
+  const { data } = await axios.post(`https://devapiv2.walcart.com/graphql`, body)
 
   return {
     props: {
       categories: data.data.getCategories.result.categories
     },
   };
-
-  // const { data } = await client.query({
-  //   query: gql`
-  //       query {
-  //         countries {
-  //           code
-  //           name
-  //           emoji
-  //         }
-  //       }
-  //     `,
-  // });
-
-  // return {
-  //   props: {
-  //     test: data.countries.slice(0, 4),
-  //   },
-  // };
 }
+
+
 
 
 

@@ -2,7 +2,9 @@ import Head from "next/head";
 import Script from "next/script"
 import '../styles/globals.css';
 import Layout from '../components/Layout';
-import { useEffect } from "react";
+import { Provider } from 'react-redux'
+import store from "../app/store";
+
 
 
 function MyApp({ Component, pageProps }) {
@@ -14,12 +16,15 @@ function MyApp({ Component, pageProps }) {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
       </Head>
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></Script>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Provider store={store}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </Provider>
+
     </>
 
   )
 }
-
-export default MyApp
+export default MyApp;
+// export default MyApp
