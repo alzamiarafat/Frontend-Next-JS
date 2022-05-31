@@ -16,55 +16,36 @@ export default function Navbar() {
                             <li className="nav-item">
                                 <a className={`active ${NavStyles.nav_link}`} aria-current="page" href="/">Home</a>
                             </li>
-                            <li className="nav-item">
-                                <a className={NavStyles.nav_link} href="/about">About</a>
-                            </li>
                             <li className={`nav-item dropdown ${NavStyles.dropdown_mega}`}>
                                 <a className={`dropdown-toggle ${NavStyles.nav_link}`} href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                    Catagory
+                                    Mega Menu
                                 </a>
                                 <div className={`dropdown-menu shadow ${NavStyles.center}`}>
                                     <div className='mega-content px-md-4'>
                                         <div className='container-fluid'>
                                             <div className='row'>
-                                                <div className='col-lg-3 col-sm-6 py-4 px-xl-5 px-4'>
-                                                    <h5>Services</h5>
+                                                <div className='col-lg-4 col-sm-6'>
                                                     <div className='list-group'>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Woman's Fashion</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Health & Beauty</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Watches, Bags, Jewllery</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Men's Fashion</a>
                                                     </div>
                                                 </div>
-                                                <div className='col-lg-3 col-sm-6 py-4 px-xl-5 px-4'>
-                                                    <h5>Services</h5>
+                                                <div className='col-lg-4 col-sm-6'>
                                                     <div className='list-group'>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Groceries & Pets</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Electronic Devices</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>TV & Home Appliances</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Electronic Accessories</a>
                                                     </div>
                                                 </div>
-                                                <div className='col-lg-3 col-sm-6 py-4 px-xl-5 px-4'>
-                                                    <h5>Services</h5>
+                                                <div className='col-lg-4 col-sm-6 px-4'>
                                                     <div className='list-group'>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                    </div>
-                                                </div>
-                                                <div className='col-lg-3 col-sm-6 py-4 px-xl-5 px-4'>
-                                                    <h5>Services</h5>
-                                                    <div className='list-group'>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
-                                                        <a className={NavStyles.list_group_item} href='#'>Accomodations</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Babies & Toys</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Home & Lifestyle</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Sports & Outdoor</a>
+                                                        <a className={NavStyles.list_group_item} href='#'>Automotive & Motorbike</a>
                                                     </div>
                                                 </div>
                                             </div>

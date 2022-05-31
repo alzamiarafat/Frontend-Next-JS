@@ -1,113 +1,100 @@
 import { useState } from 'react';
-import styles from '../../styles/Home.module.css'
-import axios from "axios";
+import { categoryService } from '../../service/categoryService';
+import { parentCategoryService } from '../../service/parentCategoryService';
+import { useDispatch } from "react-redux";
+import { setSingleCategoryResults } from "../../app/categoryReducer";
+import { useRouter } from 'next/router'
 
-export default function Category({ categories }) {
+
+export default function Category({ categories, perentCategories }) {
+    const router = useRouter()
+
+    const [parentUid, setParentUid] = useState("");
     const [name, setName] = useState("");
+    const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
-        let requestData = {
-            query: `
-          mutation {
-              createCategory(category: {name: "${name}" parentCategoryUid: "C-YPSLUG"}) {
-                  message
-                  statusCode
-                  result {
-                      uid
-                      name
-                      parent {
-                          uid
-                          name
-                      }
-                      parents {
-                          uid
-                          name
-                      }
-                      isActive
-                      inActiveNote
-                      createdAt
-                      updatedAt
-                  }
-              }
-          }
-      `
+        let resquestData = {
+            parentUid: parentUid,
+            name: name
         }
         e.preventDefault();
-        axios.post(`https://devapiv2.walcart.com/graphql`, requestData)
+        categoryService.createCategory(resquestData)
             .then((res) => {
                 setName('');
+                setParentUid('');
                 alert(res.data.data.createCategory.message)
-            })
+            }).then(() => router.reload())
             .catch((err) => {
                 alert(err)
             });
+
     };
-    // console.log(categories);
+
+    const categoryHandler = (value) => {
+        router.replace({
+            pathname: `/category/${value.uid}`,
+        })
+        dispatch(setSingleCategoryResults(value));
+    }
 
     return (
-        <div className={styles.container}>
-            <main className={styles.main}>
-                <div className={styles.grid}>
-                    <form onSubmit={(e) => handleSubmit(e)} className="form-control">
-                        <div className="form-group">
-                            <label htmlFor="name">Catagory Name</label>
-                            <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} id="name" name="name" />
-                        </div>
-                        <button type="submit" className="btn btn-primary my-3">Add</button>
-                    </form>
-                    <div className="row mt-3">
-                        {categories && categories.map((category, index) =>
-                            <div className="col-3 border m-3" key={index}>
-                                <a href={`/category/${category.uid}`}>
-                                    <h2>{category.uid}</h2>
-                                    <p>{category.name}</p>
-                                </a>
-                            </div>
-                        )}
+        <div className="container mt-4">
+            <form onSubmit={(e) => handleSubmit(e)} className="form-control">
+                <div className='row'>
+                    <div className="col-6 form-group">
+                        <label htmlFor="name">Parent Catagory Name</label>
+                        <select className="form-select" onChange={(e) => setParentUid(e.target.value)}>
+                            <option selected value="" disabled>Select One</option>
+                            {perentCategories && perentCategories.map((parent, index) =>
+                                <option key={index} value={parent.uid}>{parent.name}</option>
+                            )}
+                        </select>
+                    </div>
+                    <div className="col-6 form-group">
+                        <label htmlFor="name">Catagory Name</label>
+                        <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} id="name" name="name" />
                     </div>
                 </div>
-            </main>
-        </div>
+
+                <button type="submit" className="btn btn-primary my-3">Add</button>
+            </form>
+            <div className="row mt-3">
+                {categories && categories.map((category, index) =>
+                    <div className="col-2 border m-3 p-3" key={index} onClick={() => categoryHandler(category)}>
+                        <a href='#'>
+                            <h2>{category.uid}</h2>
+                            <p>{category.name}</p>
+                        </a>
+                    </div>
+                )}
+            </div>
+        </div >
 
     )
 }
 
 export async function getStaticProps() {
-    let body = {
-        query: `
-    query {
-      getCategories (pagination: {limit: 100 skip: 0}) {
-        message
-        statusCode
-        result {
-          count
-          categories {
-            uid
-            name
-            parent {
-              uid
-              name
-            }
-            parents {
-              uid
-              name
-            }
-            isActive
-            inActiveNote
-            createdAt
-            updatedAt
-          }
-        }
-      }
-    }
-    `
-    }
+    const parents = [];
+    const { data } = await categoryService.getCategory();
+    const response = await parentCategoryService.getParentCategory()
+    const perentCategories = response.data.data.getCategories.result.categories
 
-    const { data } = await axios.post(`https://devapiv2.walcart.com/graphql`, body)
+    perentCategories.map((parentCategory) => {
+        if (parentCategory.parents.length > 0) {
+            parentCategory.parents.map((parent) => {
+                parents.push(parent)
+            })
+        }
+    })
+
+    const uids = parents.map(o => o.uid)
+    const filteredParents = parents.filter(({ uid }, index) => !uids.includes(uid, index + 1))
 
     return {
         props: {
-            categories: data.data.getCategories.result.categories
+            categories: data.data.getCategories.result.categories,
+            perentCategories: filteredParents
         },
     };
 }

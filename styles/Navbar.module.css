@@ -5,13 +5,12 @@
 
 .center {
     margin: 0% 12%;
-    width: 70%;
+    width: 60%;
     padding: 10px;
 }
 
 .list_group_item {
     border: 0;
-    border-bottom: 1px solid rgb(0, 0, 0, .125);
     padding: 15px;
 }
 
@@ -35,4 +34,5 @@
 
 .list_group_item:hover {
     color: darkcyan;
+    background-color: lightgray;
 }
