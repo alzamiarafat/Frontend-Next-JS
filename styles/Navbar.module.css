@@ -36,3 +36,12 @@
     color: darkcyan;
     background-color: lightgray;
 }
+
+.sub_menu {
+    position: absolute;
+    left: 31%;
+    width: 240px;
+    background-color: white;
+    box-shadow: 10px;
+    display: none;
+}

@@ -61,7 +61,7 @@ export default function Category({ categories, perentCategories }) {
             </form>
             <div className="row mt-3">
                 {categories && categories.map((category, index) =>
-                    <div className="col-2 border m-3 p-3" key={index} onClick={() => categoryHandler(category)}>
+                    <div className="col-md-2 col-sm-3 border m-3 p-3" key={index} onClick={() => categoryHandler(category)}>
                         <a href='#'>
                             <h2>{category.uid}</h2>
                             <p>{category.name}</p>

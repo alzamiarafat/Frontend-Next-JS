@@ -25,8 +25,17 @@ export default function Navbar() {
                                         <div className='container-fluid'>
                                             <div className='row'>
                                                 <div className='col-lg-4 col-sm-6'>
-                                                    <div className='list-group'>
-                                                        <a className={NavStyles.list_group_item} href='#'>Woman's Fashion</a>
+                                                    <div className={`list-group ${NavStyles.menu}`}>
+                                                        <a className={NavStyles.list_group_item} href='#'>
+                                                            <div className='row'>
+                                                                <div className='col-10'>
+                                                                    Woman's Fashion
+                                                                </div>
+                                                                <div className='col-1'>
+                                                                    <i class="fa-solid fa-chevron-right"></i>
+                                                                </div>
+                                                            </div>
+                                                        </a>
                                                         <a className={NavStyles.list_group_item} href='#'>Health & Beauty</a>
                                                         <a className={NavStyles.list_group_item} href='#'>Watches, Bags, Jewllery</a>
                                                         <a className={NavStyles.list_group_item} href='#'>Men's Fashion</a>
